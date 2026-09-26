@@ -1,0 +1,20 @@
+### Final DB state (orders)
+    t     | count 
+----------+-------
+ users    |     2
+ products |     4
+ orders   |     4
+(3 rows)
+
+ product_id  | quantity | unit_price_cents | total_cents |   key    
+-------------+----------+------------------+-------------+----------
+ product-123 |        2 |             9900 |       19800 | 939dc9da
+ sword-001   |        1 |            25000 |       25000 | 63c41495
+ product-456 |        3 |             4950 |       14850 | 4dc40e4e
+ product-123 |        1 |             9900 |        9900 | 1b6514ea
+(4 rows)
+
+ idempotency_key | count 
+-----------------+-------
+(0 rows)
+

@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+.git
+.gitignore
+.claude
+.dockerignore
+Dockerfile
+docker-compose.yml
+Docs/
+CLAUDE.md
+README.md
+pgadmin/
+*.md
+*.exe
+tmp/

@@ -1,0 +1,100 @@
+### docker compose logs api (full)
+api-1  | {"time":"2026-09-26T08:36:29.566709572Z","level":"WARN","msg":"fault injection ENABLED via X-Debug-Fault header (dev only)"}
+api-1  | {"time":"2026-09-26T08:36:29.566900049Z","level":"INFO","msg":"api listening","addr":":8080","env":"dev","store":"postgres"}
+api-1  | 
+api-1  |     _______ __
+api-1  |    / ____(_) /_  ___  _____
+api-1  |   / /_  / / __ \/ _ \/ ___/
+api-1  |  / __/ / / /_/ /  __/ /
+api-1  | /_/   /_/_.___/\___/_/          v3.5.0
+api-1  | --------------------------------------------------
+api-1  | INFO Server started on: 	http://127.0.0.1:8080 (bound on host 0.0.0.0 and port 8080)
+api-1  | INFO Application name: 		order-api
+api-1  | INFO Total handlers: 		25
+api-1  | INFO Prefork: 			Disabled
+api-1  | INFO PID: 			1
+api-1  | INFO Total process count: 	1
+api-1  | 
+api-1  | {"time":"2026-09-26T08:36:29.64375749Z","level":"INFO","msg":"request","method":"GET","path":"/healthz","status":200,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:29.71425337Z","level":"INFO","msg":"request","method":"GET","path":"/healthz","status":200,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:29.793904146Z","level":"INFO","msg":"request","method":"GET","path":"/api/products","status":200,"duration_ms":2,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:29.871354587Z","level":"WARN","msg":"request","method":"GET","path":"/api/nope","status":404,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:29.948574823Z","level":"WARN","msg":"request","method":"PUT","path":"/api/orders","status":405,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:30.023823295Z","level":"INFO","msg":"request","method":"POST","path":"/api/auth/guest","status":200,"duration_ms":3,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:30.168407691Z","level":"INFO","msg":"request","method":"POST","path":"/api/auth/guest","status":200,"duration_ms":2,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:30.2353807Z","level":"WARN","msg":"request","method":"POST","path":"/api/auth/guest","status":400,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:30.475824099Z","level":"INFO","msg":"request","method":"POST","path":"/api/auth/register","status":201,"duration_ms":169,"ip":"172.21.0.1"}
+api-1  | 
+api-1  | 2026/09/26 08:36:30 [31;1morder-backend/internal/store/postgres/users.go:41 [35;1mERROR: duplicate key value violates unique constraint "users_email_key" (SQLSTATE 23505)
+api-1  | [0m[33m[0.571ms] [34;1m[rows:-][0m 
+api-1  | 		INSERT INTO users (email, password_hash) VALUES ('player1790411789@example.com', '$2a$12$scYQJrOEn.5I9jhhb/ahBOkvJsJVaFSSc65LjYItMJXIVEwXQmvz6')
+api-1  | 		RETURNING id, device_id, email, password_hash, created_at, last_login_at
+api-1  | {"time":"2026-09-26T08:36:30.731110487Z","level":"WARN","msg":"request","method":"POST","path":"/api/auth/register","status":409,"duration_ms":172,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:30.814854004Z","level":"WARN","msg":"request","method":"POST","path":"/api/auth/register","status":400,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:30.90826196Z","level":"WARN","msg":"request","method":"POST","path":"/api/auth/register","status":400,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:31.170527448Z","level":"WARN","msg":"request","method":"POST","path":"/api/auth/login","status":401,"duration_ms":169,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:31.593990635Z","level":"WARN","msg":"request","method":"POST","path":"/api/auth/login","status":401,"duration_ms":344,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:31.875713984Z","level":"INFO","msg":"request","method":"POST","path":"/api/auth/login","status":200,"duration_ms":177,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:32.1378486Z","level":"INFO","msg":"request","method":"POST","path":"/api/auth/login","status":200,"duration_ms":168,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:32.169421299Z","level":"INFO","msg":"request","method":"GET","path":"/api/me","status":200,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:32.251337635Z","level":"WARN","msg":"request","method":"GET","path":"/api/me","status":401,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:32.453889716Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":3,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:32.531892532Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:32.620235608Z","level":"WARN","msg":"request","method":"POST","path":"/api/orders","status":422,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:32.832385713Z","level":"WARN","msg":"request","method":"POST","path":"/api/orders","status":401,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:33.036574639Z","level":"WARN","msg":"request","method":"POST","path":"/api/orders","status":401,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:33.114280761Z","level":"WARN","msg":"request","method":"POST","path":"/api/orders","status":400,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:33.239202863Z","level":"WARN","msg":"request","method":"POST","path":"/api/orders","status":400,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:33.441521188Z","level":"WARN","msg":"request","method":"POST","path":"/api/orders","status":400,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:33.649023012Z","level":"WARN","msg":"request","method":"POST","path":"/api/orders","status":400,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:33.860799946Z","level":"WARN","msg":"request","method":"POST","path":"/api/orders","status":400,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:34.094382076Z","level":"WARN","msg":"request","method":"POST","path":"/api/orders","status":400,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:34.326841178Z","level":"WARN","msg":"request","method":"POST","path":"/api/orders","status":400,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:34.533673406Z","level":"WARN","msg":"request","method":"POST","path":"/api/orders","status":400,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:34.747065371Z","level":"WARN","msg":"request","method":"POST","path":"/api/orders","status":400,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:34.967483911Z","level":"WARN","msg":"request","method":"POST","path":"/api/orders","status":404,"duration_ms":1,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:35.169960939Z","level":"WARN","msg":"request","method":"POST","path":"/api/orders","status":404,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:35.256275439Z","level":"INFO","msg":"request","method":"GET","path":"/api/orders","status":200,"duration_ms":2,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:35.449922628Z","level":"WARN","msg":"fault injection","path":"/api/orders","fault":"delay=3s"}
+api-1  | {"time":"2026-09-26T08:36:38.452203389Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":3003,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:39.563377713Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:39.750502519Z","level":"WARN","msg":"fault injection","path":"/api/orders","fault":"drop-after-commit"}
+api-1  | {"time":"2026-09-26T08:36:39.754263087Z","level":"ERROR","msg":"request","method":"POST","path":"/api/orders","status":500,"duration_ms":3,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:39.823858985Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.014273165Z","level":"WARN","msg":"fault injection","path":"/api/orders","fault":"status=503"}
+api-1  | {"time":"2026-09-26T08:36:40.014301044Z","level":"ERROR","msg":"request","method":"POST","path":"/api/orders","status":503,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.215922499Z","level":"WARN","msg":"fault injection","path":"/api/orders","fault":"status=403"}
+api-1  | {"time":"2026-09-26T08:36:40.216024224Z","level":"WARN","msg":"request","method":"POST","path":"/api/orders","status":403,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.29235887Z","level":"WARN","msg":"request","method":"GET","path":"/healthz","status":400,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.528333505Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":4,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.530887275Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.537249917Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.546330598Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.555907605Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.564350879Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.572374409Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.579949069Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.592709292Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.60583268Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.623108144Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.629989748Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.636821353Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.644286383Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.652064335Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.659714623Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.665564435Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.673051061Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.694439829Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.702509163Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.709840076Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.724586327Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.72976756Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.737871395Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.738441338Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.745981304Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.753272529Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.771246353Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.776693038Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:40.782490612Z","level":"INFO","msg":"request","method":"POST","path":"/api/orders","status":201,"duration_ms":0,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:41.242313719Z","level":"INFO","msg":"request","method":"POST","path":"/api/auth/link","status":200,"duration_ms":172,"ip":"172.21.0.1"}
+api-1  | {"time":"2026-09-26T08:36:41.497645314Z","level":"WARN","msg":"request","method":"POST","path":"/api/auth/link","status":409,"duration_ms":162,"ip":"172.21.0.1"}

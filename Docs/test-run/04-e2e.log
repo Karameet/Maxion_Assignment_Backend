@@ -1,0 +1,65 @@
+### scripts/e2e.sh against API container (APP_ENV=dev, ENABLE_FAULT_INJECTION=true), DB freshly reset
+2026-09-26T15:36:29+07:00
+
+== Health / products
+PASS healthz                                want=200 got=200  {"status":"ok"}
+PASS products                               want=200 got=200  {"products":[{"id":"product-123","name":"Health Potion","price":99.00},{"id":"product-456","name":"Mana Potion","price":49.50},{"id":"sword-001","name
+PASS unknown route                          want=404 got=404  {"error":{"code":"NOT_FOUND","message":"route not found"}}
+PASS wrong method                           want=405 got=405  {"error":{"code":"METHOD_NOT_ALLOWED","message":"method not allowed"}}
+== Auth
+PASS guest (same device again)              want=200 got=200  {"userId":"0b36d4ab-6aa9-46aa-9b8a-3f0f892b381a","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2N0IjoiZ3Vlc3QiLCJpc3MiOiJvcmRlci1hcGkiLCJzdWIiOiI
+PASS guest short deviceId                   want=400 got=400  {"error":{"code":"INVALID_DEVICE_ID","message":"deviceId must be 16-128 characters"}}
+PASS register                               want=201 got=201  {"userId":"2d168135-a3d3-4c4f-8fdc-8f285e49ce0a","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2N0IjoiZW1haWwiLCJpc3MiOiJvcmRlci1hcGkiLCJzdWIiOiI
+PASS register duplicate (upper case)        want=409 got=409  {"error":{"code":"EMAIL_TAKEN","message":"email is already registered"}}
+PASS register invalid email                 want=400 got=400  {"error":{"code":"INVALID_EMAIL","message":"email is not a valid address"}}
+PASS register weak password                 want=400 got=400  {"error":{"code":"WEAK_PASSWORD","message":"password must be 8-72 bytes"}}
+PASS login wrong password                   want=401 got=401  {"error":{"code":"INVALID_CREDENTIALS","message":"invalid email or password"}}
+PASS login unknown email                    want=401 got=401  {"error":{"code":"INVALID_CREDENTIALS","message":"invalid email or password"}}
+PASS login ok                               want=200 got=200  {"userId":"2d168135-a3d3-4c4f-8fdc-8f285e49ce0a","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2N0IjoiZW1haWwiLCJpc3MiOiJvcmRlci1hcGkiLCJzdWIiOiI
+PASS me (email token)                       want=200 got=200  {"userId":"2d168135-a3d3-4c4f-8fdc-8f285e49ce0a","accountType":"email","email":"player1790411789@example.com","createdAt":"2026-09-26T08:36:30Z"}
+PASS me (no token)                          want=401 got=401  {"error":{"code":"UNAUTHORIZED","message":"missing bearer token"}}
+== Orders
+PASS create                                 want=201 got=201  {"id":"2158624f-dbeb-4364-a72e-0aff17d66e0d","productId":"product-123","quantity":2,"total":198.00}
+PASS replay same key                        want=201 got=201  {"id":"2158624f-dbeb-4364-a72e-0aff17d66e0d","productId":"product-123","quantity":2,"total":198.00}
+PASS same key, different body               want=422 got=422  {"error":{"code":"IDEMPOTENCY_KEY_REUSED","message":"Idempotency-Key was already used with a different request body"}}
+PASS no token                               want=401 got=401  {"error":{"code":"UNAUTHORIZED","message":"missing bearer token"}}
+PASS garbage token                          want=401 got=401  {"error":{"code":"UNAUTHORIZED","message":"invalid or expired token"}}
+PASS missing key                            want=400 got=400  {"error":{"code":"MISSING_IDEMPOTENCY_KEY","message":"Idempotency-Key header is required"}}
+PASS bad key                                want=400 got=400  {"error":{"code":"INVALID_IDEMPOTENCY_KEY","message":"Idempotency-Key must be 8-128 characters of [A-Za-z0-9_-]"}}
+PASS client sends total                     want=400 got=400  {"error":{"code":"INVALID_JSON","message":"unknown field \"total\""}}
+PASS wrong content-type                     want=400 got=400  {"error":{"code":"INVALID_JSON","message":"Content-Type must be application/json"}}
+PASS quantity 0                             want=400 got=400  {"error":{"code":"INVALID_QUANTITY","message":"quantity must be a positive integer within the allowed maximum"}}
+PASS quantity 2.5                           want=400 got=400  {"error":{"code":"INVALID_QUANTITY","message":"quantity must be a positive integer within the allowed maximum"}}
+PASS quantity "2"                           want=400 got=400  {"error":{"code":"INVALID_QUANTITY","message":"quantity must be a positive integer within the allowed maximum"}}
+PASS quantity 100 (> max)                   want=400 got=400  {"error":{"code":"INVALID_QUANTITY","message":"quantity must be a positive integer within the allowed maximum"}}
+PASS productId number                       want=400 got=400  {"error":{"code":"INVALID_PRODUCT_ID","message":"productId must be 1-64 characters of [A-Za-z0-9_-]"}}
+PASS unknown product                        want=404 got=404  {"error":{"code":"PRODUCT_NOT_FOUND","message":"product not found"}}
+PASS retired product                        want=404 got=404  {"error":{"code":"PRODUCT_NOT_FOUND","message":"product not found"}}
+PASS list orders                            want=200 got=200  {"orders":[{"id":"2158624f-dbeb-4364-a72e-0aff17d66e0d","productId":"product-123","quantity":2,"unitPrice":99.00,"total":198.00,"createdAt":"2026-09-2
+== Fault injection
+PASS delay=3s, client timeout 1s            want=000 got=000  
+PASS retry after timeout → replayed: true
+PASS drop-after-commit                      want=500 got=500  {"error":{"code":"INTERNAL","message":"injected fault after commit"}}
+PASS retry after dropped response           want=201 got=201  {"id":"62861adc-2b7d-4a82-b1c6-b1785196be34","productId":"product-456","quantity":3,"total":148.50}
+PASS status=503                             want=503 got=503  {"error":{"code":"SERVICE_UNAVAILABLE","message":"injected fault"}}
+PASS status=403                             want=403 got=403  {"error":{"code":"FORBIDDEN","message":"injected fault"}}
+PASS unknown fault directive                want=400 got=400  {"error":{"code":"BAD_REQUEST","message":"invalid X-Debug-Fault: unknown directive \"explode\""}}
+== 30 parallel requests, same key
+PASS all 30 got 201: 30
+PASS distinct order ids: 1
+PASS responses with Replayed=false: 1
+== Link guest -> email
+PASS link                                   want=200 got=200  {"userId":"0b36d4ab-6aa9-46aa-9b8a-3f0f892b381a","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2N0IjoiZW1haWwiLCJpc3MiOiJvcmRlci1hcGkiLCJzdWIiOiI
+PASS link again                             want=409 got=409  {"error":{"code":"ALREADY_LINKED","message":"account already has an email"}}
+== Verify in Postgres
+PASS rows for key 939dc9da: 1
+PASS rows for key 63c41495: 1
+PASS rows for key 4dc40e4e: 1
+PASS rows for key 1b6514ea: 1
+PASS total_cents product-123 x2: 19800
+PASS total_cents product-456 x3: 14850
+PASS password stored as bcrypt: $2a$12$
+PASS linked account keeps guest orders: 4
+
+RESULT: 52 passed, 0 failed
+exit code: 0

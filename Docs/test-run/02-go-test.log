@@ -1,0 +1,404 @@
+### go vet ./...
+vet: OK
+
+### go test -v -count=1 ./...  (TEST_DATABASE_URL=orders_test)
+go version go1.25.0 windows/amd64
+?   	order-backend/cmd/api	[no test files]
+=== RUN   TestIssueParseRoundtrip
+--- PASS: TestIssueParseRoundtrip (0.00s)
+=== RUN   TestParseRejectsAlgNone
+--- PASS: TestParseRejectsAlgNone (0.00s)
+=== RUN   TestParseRejectsRS256
+--- PASS: TestParseRejectsRS256 (0.12s)
+=== RUN   TestParseRejectsExpiredToken
+--- PASS: TestParseRejectsExpiredToken (0.00s)
+=== RUN   TestParseRejectsWrongSignature
+--- PASS: TestParseRejectsWrongSignature (0.00s)
+=== RUN   TestParseRejectsWrongIssuer
+--- PASS: TestParseRejectsWrongIssuer (0.00s)
+=== RUN   TestParseRejectsGarbage
+--- PASS: TestParseRejectsGarbage (0.00s)
+=== RUN   TestPasswordHasher_HashIsSaltedAndVerifiable
+--- PASS: TestPasswordHasher_HashIsSaltedAndVerifiable (0.00s)
+PASS
+ok  	order-backend/internal/auth	0.139s
+=== RUN   TestLoad_Defaults
+--- PASS: TestLoad_Defaults (0.00s)
+=== RUN   TestLoad_FailFast
+=== RUN   TestLoad_FailFast/prod_with_fault_injection
+=== RUN   TestLoad_FailFast/short_jwt_secret
+=== RUN   TestLoad_FailFast/missing_database_url
+=== RUN   TestLoad_FailFast/bad_app_env
+=== RUN   TestLoad_FailFast/bad_order_repo
+=== RUN   TestLoad_FailFast/zero_max_quantity
+--- PASS: TestLoad_FailFast (0.00s)
+    --- PASS: TestLoad_FailFast/prod_with_fault_injection (0.00s)
+    --- PASS: TestLoad_FailFast/short_jwt_secret (0.00s)
+    --- PASS: TestLoad_FailFast/missing_database_url (0.00s)
+    --- PASS: TestLoad_FailFast/bad_app_env (0.00s)
+    --- PASS: TestLoad_FailFast/bad_order_repo (0.00s)
+    --- PASS: TestLoad_FailFast/zero_max_quantity (0.00s)
+=== RUN   TestLoad_MemoryModeNeedsNoDatabase
+--- PASS: TestLoad_MemoryModeNeedsNoDatabase (0.00s)
+PASS
+ok  	order-backend/internal/config	0.016s
+=== RUN   TestAuthGuest
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/auth/guest status=400 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/auth/guest status=400 duration_ms=0 ip=0.0.0.0
+--- PASS: TestAuthGuest (0.00s)
+=== RUN   TestAuthRegisterLoginMe
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/register status=201 duration_ms=1 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/auth/register status=409 duration_ms=1 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/auth/register status=400 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/auth/register status=400 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/login status=200 duration_ms=1 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/auth/login status=401 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/auth/login status=401 duration_ms=1 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=GET path=/api/me status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=GET path=/api/me status=401 duration_ms=0 ip=0.0.0.0
+--- PASS: TestAuthRegisterLoginMe (0.01s)
+=== RUN   TestAuthLinkKeepsUserAndOrders
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/link status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/auth/link status=409 duration_ms=1 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/login status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=GET path=/api/orders status=200 duration_ms=0 ip=0.0.0.0
+--- PASS: TestAuthLinkKeepsUserAndOrders (0.00s)
+=== RUN   TestAuthRateLimit
+2026/09/26 15:36:15 WARN request method=POST path=/api/auth/login status=401 duration_ms=1 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/auth/login status=401 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/auth/login status=401 duration_ms=2 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/auth/login status=429 duration_ms=0 ip=0.0.0.0
+--- PASS: TestAuthRateLimit (0.00s)
+=== RUN   TestFaultInjection_DisabledInProd
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=0 ip=0.0.0.0
+--- PASS: TestFaultInjection_DisabledInProd (0.00s)
+=== RUN   TestFaultInjection_DisabledByDefaultInDev
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=0 ip=0.0.0.0
+--- PASS: TestFaultInjection_DisabledByDefaultInDev (0.00s)
+=== RUN   TestFaultInjection_Status
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN fault injection path=/api/orders fault="status=500"
+2026/09/26 15:36:15 ERROR request method=POST path=/api/orders status=500 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN fault injection path=/api/orders fault="status=503"
+2026/09/26 15:36:15 ERROR request method=POST path=/api/orders status=503 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN fault injection path=/api/orders fault="status=403"
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=403 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN fault injection path=/api/orders fault="status=401"
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=401 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=GET path=/healthz status=400 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=GET path=/healthz status=400 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=GET path=/healthz status=400 duration_ms=0 ip=0.0.0.0
+--- PASS: TestFaultInjection_Status (0.00s)
+=== RUN   TestFaultInjection_DropAfterCommitThenRetry
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN fault injection path=/api/orders fault=drop-after-commit
+2026/09/26 15:36:15 ERROR request method=POST path=/api/orders status=500 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=0 ip=0.0.0.0
+--- PASS: TestFaultInjection_DropAfterCommitThenRetry (0.00s)
+=== RUN   TestFaultInjection_DelayStillProcesses
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN fault injection path=/api/orders fault="delay=200ms"
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=200 ip=0.0.0.0
+--- PASS: TestFaultInjection_DelayStillProcesses (0.20s)
+=== RUN   TestPostOrder_NoBearer
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=401 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=401 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=401 duration_ms=0 ip=0.0.0.0
+--- PASS: TestPostOrder_NoBearer (0.00s)
+=== RUN   TestPostOrder_ExpiredToken
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=401 duration_ms=0 ip=0.0.0.0
+--- PASS: TestPostOrder_ExpiredToken (0.00s)
+=== RUN   TestPostOrder_IdempotencyKeyValidation
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+--- PASS: TestPostOrder_IdempotencyKeyValidation (0.00s)
+=== RUN   TestPostOrder_BodyValidation
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/client-sent_total
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/client-sent_price
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/malformed
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/array
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/trailing_data
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/empty
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/qty_float
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/qty_2.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/qty_exp
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/qty_string
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/qty_zero
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/qty_negative
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/qty_null
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/qty_missing
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/qty_over_max
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/qty_huge
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/product_number
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/product_missing
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/product_empty
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+=== RUN   TestPostOrder_BodyValidation/product_injection
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=400 duration_ms=0 ip=0.0.0.0
+--- PASS: TestPostOrder_BodyValidation (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/client-sent_total (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/client-sent_price (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/malformed (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/array (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/trailing_data (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/empty (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/qty_float (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/qty_2.0 (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/qty_exp (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/qty_string (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/qty_zero (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/qty_negative (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/qty_null (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/qty_missing (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/qty_over_max (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/qty_huge (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/product_number (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/product_missing (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/product_empty (0.00s)
+    --- PASS: TestPostOrder_BodyValidation/product_injection (0.00s)
+=== RUN   TestPostOrder_CreateAndReplay
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=422 duration_ms=0 ip=0.0.0.0
+--- PASS: TestPostOrder_CreateAndReplay (0.00s)
+=== RUN   TestPostOrder_ProductNotFound
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=404 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=404 duration_ms=0 ip=0.0.0.0
+--- PASS: TestPostOrder_ProductNotFound (0.00s)
+=== RUN   TestPostOrder_DeletedUserIs401
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=401 duration_ms=0 ip=0.0.0.0
+--- PASS: TestPostOrder_DeletedUserIs401 (0.00s)
+=== RUN   TestPostOrder_PayloadTooLarge
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=200 duration_ms=0 ip=127.0.0.1
+--- PASS: TestPostOrder_PayloadTooLarge (0.00s)
+=== RUN   TestPostOrder_RequireEmailAccount
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=403 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/register status=201 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=0 ip=0.0.0.0
+--- PASS: TestPostOrder_RequireEmailAccount (0.00s)
+=== RUN   TestGetOrdersAndProducts
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=GET path=/api/orders status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=GET path=/api/orders status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=GET path=/api/orders status=401 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=GET path=/api/products status=200 duration_ms=0 ip=0.0.0.0
+--- PASS: TestGetOrdersAndProducts (0.00s)
+=== RUN   TestUnknownRouteUsesEnvelope
+2026/09/26 15:36:15 WARN request method=GET path=/api/nope status=404 duration_ms=0 ip=0.0.0.0
+--- PASS: TestUnknownRouteUsesEnvelope (0.00s)
+=== RUN   TestHealthz
+2026/09/26 15:36:15 INFO request method=GET path=/healthz status=200 duration_ms=0 ip=0.0.0.0
+--- PASS: TestHealthz (0.00s)
+=== RUN   TestCORSAllowsIdempotencyHeaders
+2026/09/26 15:36:15 INFO request method=OPTIONS path=/api/orders status=204 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=0 ip=0.0.0.0
+--- PASS: TestCORSAllowsIdempotencyHeaders (0.00s)
+=== RUN   TestPG_ConcurrentSameKeyCreatesOneOrder
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=3 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=28 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=32 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=32 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=33 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=34 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=32 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=33 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=31 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=32 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=32 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=31 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=32 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=33 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=33 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=32 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=37 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=37 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=33 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=36 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=37 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=34 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=34 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=33 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=37 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=34 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=36 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=34 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=34 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=35 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=34 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=36 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=36 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=34 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=37 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=34 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=38 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=36 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=35 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=36 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=40 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=36 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=36 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=37 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=38 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=43 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=44 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=43 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=51 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=48 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=48 ip=0.0.0.0
+--- PASS: TestPG_ConcurrentSameKeyCreatesOneOrder (0.12s)
+=== RUN   TestPG_EndToEnd
+2026/09/26 15:36:15 INFO request method=GET path=/healthz status=200 duration_ms=1 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/register status=201 duration_ms=4 ip=0.0.0.0
+
+2026/09/26 15:36:15 [31;1mD:/Maxion_Assignment_Backend/internal/store/postgres/users.go:41 [35;1mERROR: duplicate key value violates unique constraint "users_email_key" (SQLSTATE 23505)
+[0m[33m[1.058ms] [34;1m[rows:-][0m 
+		INSERT INTO users (email, password_hash) VALUES ('e2e@example.com', '$2a$04$VCtOSV3LatCtI/BRk4W4t.7to/SkqjsZSvhE3YwU0riEyAR.NOKGq')
+		RETURNING id, device_id, email, password_hash, created_at, last_login_at
+2026/09/26 15:36:15 WARN request method=POST path=/api/auth/register status=409 duration_ms=1 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/login status=200 duration_ms=3 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/auth/login status=401 duration_ms=1 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=5 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=1 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=422 duration_ms=0 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=404 duration_ms=1 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=3 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=4 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=GET path=/api/orders status=200 duration_ms=0 ip=0.0.0.0
+--- PASS: TestPG_EndToEnd (0.08s)
+=== RUN   TestPG_DeletedUserTokenIs401
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=3 ip=0.0.0.0
+
+2026/09/26 15:36:15 [31;1mD:/Maxion_Assignment_Backend/internal/store/postgres/orders.go:48 [35;1mERROR: insert or update on table "orders" violates foreign key constraint "orders_user_id_fkey" (SQLSTATE 23503)
+[0m[33m[1.311ms] [34;1m[rows:-][0m 
+		INSERT INTO orders (user_id, product_id, quantity, unit_price_cents, total_cents, idempotency_key)
+		VALUES ('aec1c1b9-6c5f-4884-90b1-d45d0261386b', 'product-123', 2, 9900, 19800, 'f2556022-52ef-4541-96ab-eae1cab58719')
+		ON CONFLICT (user_id, idempotency_key) DO NOTHING
+		RETURNING id, user_id, product_id, quantity, unit_price_cents, total_cents, idempotency_key, created_at
+2026/09/26 15:36:15 WARN request method=POST path=/api/orders status=401 duration_ms=2 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=GET path=/api/me status=401 duration_ms=1 ip=0.0.0.0
+--- PASS: TestPG_DeletedUserTokenIs401 (0.06s)
+=== RUN   TestPG_LinkGuestToEmail
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=3 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/orders status=201 duration_ms=4 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/link status=200 duration_ms=3 ip=0.0.0.0
+2026/09/26 15:36:15 WARN request method=POST path=/api/auth/link status=409 duration_ms=2 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=POST path=/api/auth/guest status=200 duration_ms=2 ip=0.0.0.0
+
+2026/09/26 15:36:15 [31;1mD:/Maxion_Assignment_Backend/internal/store/postgres/users.go:72 [35;1mERROR: duplicate key value violates unique constraint "users_email_key" (SQLSTATE 23505)
+[0m[33m[0.515ms] [34;1m[rows:-][0m 
+		UPDATE users SET email = 'pglink@example.com', password_hash = '$2a$04$zGi1o/or6iBaKpulsMqYf.hywrG2WkCQhTO7bxXI4BmnBJ1jQCMo6'
+		WHERE id = 'a84c222a-9f0d-4ac8-8209-329b361a57db' AND email IS NULL
+		RETURNING id, device_id, email, password_hash, created_at, last_login_at
+2026/09/26 15:36:15 WARN request method=POST path=/api/auth/link status=409 duration_ms=1 ip=0.0.0.0
+2026/09/26 15:36:15 INFO request method=GET path=/api/me status=200 duration_ms=0 ip=0.0.0.0
+--- PASS: TestPG_LinkGuestToEmail (0.06s)
+PASS
+ok  	order-backend/internal/httpapi	0.560s
+=== RUN   TestCreateOrder_InvalidInputNeverTouchesRepo
+=== RUN   TestCreateOrder_InvalidInputNeverTouchesRepo/qty_0
+=== RUN   TestCreateOrder_InvalidInputNeverTouchesRepo/qty_-1
+=== RUN   TestCreateOrder_InvalidInputNeverTouchesRepo/qty_over_max
+=== RUN   TestCreateOrder_InvalidInputNeverTouchesRepo/empty_product
+=== RUN   TestCreateOrder_InvalidInputNeverTouchesRepo/long_product
+=== RUN   TestCreateOrder_InvalidInputNeverTouchesRepo/weird_product
+=== RUN   TestCreateOrder_InvalidInputNeverTouchesRepo/missing_key
+=== RUN   TestCreateOrder_InvalidInputNeverTouchesRepo/short_key
+=== RUN   TestCreateOrder_InvalidInputNeverTouchesRepo/key_with_space
+=== RUN   TestCreateOrder_InvalidInputNeverTouchesRepo/key_too_long
+--- PASS: TestCreateOrder_InvalidInputNeverTouchesRepo (0.00s)
+    --- PASS: TestCreateOrder_InvalidInputNeverTouchesRepo/qty_0 (0.00s)
+    --- PASS: TestCreateOrder_InvalidInputNeverTouchesRepo/qty_-1 (0.00s)
+    --- PASS: TestCreateOrder_InvalidInputNeverTouchesRepo/qty_over_max (0.00s)
+    --- PASS: TestCreateOrder_InvalidInputNeverTouchesRepo/empty_product (0.00s)
+    --- PASS: TestCreateOrder_InvalidInputNeverTouchesRepo/long_product (0.00s)
+    --- PASS: TestCreateOrder_InvalidInputNeverTouchesRepo/weird_product (0.00s)
+    --- PASS: TestCreateOrder_InvalidInputNeverTouchesRepo/missing_key (0.00s)
+    --- PASS: TestCreateOrder_InvalidInputNeverTouchesRepo/short_key (0.00s)
+    --- PASS: TestCreateOrder_InvalidInputNeverTouchesRepo/key_with_space (0.00s)
+    --- PASS: TestCreateOrder_InvalidInputNeverTouchesRepo/key_too_long (0.00s)
+=== RUN   TestCreateOrder_ValidComputesTotalServerSide
+--- PASS: TestCreateOrder_ValidComputesTotalServerSide (0.00s)
+=== RUN   TestCreateOrder_ProductNotFoundOrInactive
+--- PASS: TestCreateOrder_ProductNotFoundOrInactive (0.00s)
+=== RUN   TestCreateOrder_ReplaySameBody
+--- PASS: TestCreateOrder_ReplaySameBody (0.00s)
+=== RUN   TestCreateOrder_ReplayDifferentBody
+--- PASS: TestCreateOrder_ReplayDifferentBody (0.00s)
+=== RUN   TestCreateOrder_SameKeyDifferentUsers
+--- PASS: TestCreateOrder_SameKeyDifferentUsers (0.00s)
+=== RUN   TestCreateOrder_ConcurrentSameKey
+=== RUN   TestCreateOrder_ConcurrentSameKey/with_fast_path
+=== RUN   TestCreateOrder_ConcurrentSameKey/all_racing_into_insert
+--- PASS: TestCreateOrder_ConcurrentSameKey (0.00s)
+    --- PASS: TestCreateOrder_ConcurrentSameKey/with_fast_path (0.00s)
+    --- PASS: TestCreateOrder_ConcurrentSameKey/all_racing_into_insert (0.00s)
+=== RUN   TestCreateOrder_ReplayAfterPriceChangeKeepsOriginalTotal
+--- PASS: TestCreateOrder_ReplayAfterPriceChangeKeepsOriginalTotal (0.00s)
+=== RUN   TestMoneyMarshalJSON
+--- PASS: TestMoneyMarshalJSON (0.00s)
+PASS
+ok  	order-backend/internal/order	0.015s
+?   	order-backend/internal/order/memory	[no test files]
+?   	order-backend/internal/store/postgres	[no test files]
+=== RUN   TestLoginGuest_DeviceIDLength
+--- PASS: TestLoginGuest_DeviceIDLength (0.00s)
+=== RUN   TestLoginGuest_SameDeviceSameUser
+--- PASS: TestLoginGuest_SameDeviceSameUser (0.00s)
+=== RUN   TestNormalizeEmail
+--- PASS: TestNormalizeEmail (0.00s)
+=== RUN   TestRegister_PasswordLength
+--- PASS: TestRegister_PasswordLength (0.00s)
+=== RUN   TestRegister_StoresHashNotPlaintext
+--- PASS: TestRegister_StoresHashNotPlaintext (0.00s)
+=== RUN   TestRegister_DuplicateEmail
+--- PASS: TestRegister_DuplicateEmail (0.00s)
+=== RUN   TestLoginEmail
+--- PASS: TestLoginEmail (0.00s)
+=== RUN   TestLinkEmail
+--- PASS: TestLinkEmail (0.00s)
+PASS
+ok  	order-backend/internal/user	0.023s
+?   	order-backend/internal/user/memory	[no test files]
+exit code: 0

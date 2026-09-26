@@ -1,0 +1,63 @@
+### 1. Reset: docker compose down -v (delete all containers + volumes)
+ Container maxion_assignment_backend-api-1  Stopping
+ Container maxion_assignment_backend-pgadmin-1  Stopping
+ Container maxion_assignment_backend-api-1  Stopped
+ Container maxion_assignment_backend-api-1  Removing
+ Container maxion_assignment_backend-api-1  Removed
+ Container maxion_assignment_backend-pgadmin-1  Stopped
+ Container maxion_assignment_backend-pgadmin-1  Removing
+ Container maxion_assignment_backend-pgadmin-1  Removed
+ Container maxion_assignment_backend-db-1  Stopping
+ Container maxion_assignment_backend-db-1  Stopped
+ Container maxion_assignment_backend-db-1  Removing
+ Container maxion_assignment_backend-db-1  Removed
+ Network maxion_assignment_backend_default  Removing
+ Volume maxion_assignment_backend_pgdata  Removing
+ Volume maxion_assignment_backend_pgadmin_data  Removing
+ Volume maxion_assignment_backend_pgdata  Removed
+ Volume maxion_assignment_backend_pgadmin_data  Removed
+ Network maxion_assignment_backend_default  Removed
+
+### 2. Start fresh db + pgadmin
+ Network maxion_assignment_backend_default  Creating
+ Network maxion_assignment_backend_default  Created
+ Volume "maxion_assignment_backend_pgdata"  Creating
+ Volume "maxion_assignment_backend_pgdata"  Created
+ Volume "maxion_assignment_backend_pgadmin_data"  Creating
+ Volume "maxion_assignment_backend_pgadmin_data"  Created
+ Container maxion_assignment_backend-db-1  Creating
+ Container maxion_assignment_backend-db-1  Created
+ Container maxion_assignment_backend-pgadmin-1  Creating
+ Container maxion_assignment_backend-pgadmin-1  Created
+ Container maxion_assignment_backend-db-1  Starting
+ Container maxion_assignment_backend-db-1  Started
+ Container maxion_assignment_backend-db-1  Waiting
+ Container maxion_assignment_backend-db-1  Healthy
+ Container maxion_assignment_backend-pgadmin-1  Starting
+ Container maxion_assignment_backend-pgadmin-1  Started
+
+### 3. Databases after reset
+orders
+orders_test
+tables in orders before migrate: 0
+
+### 4. Migrate orders (dev)
+2026/09/26 15:35:58 OK   00001_users.sql (21.32ms)
+2026/09/26 15:35:58 OK   00002_products_orders.sql (31.32ms)
+2026/09/26 15:35:58 OK   00003_seed_products.sql (4.16ms)
+2026/09/26 15:35:58 goose: successfully migrated database to version: 3
+
+### 5. Migrate orders_test
+2026/09/26 15:35:58 OK   00001_users.sql (21.97ms)
+2026/09/26 15:35:59 OK   00002_products_orders.sql (29.18ms)
+2026/09/26 15:35:59 OK   00003_seed_products.sql (4.29ms)
+2026/09/26 15:35:59 goose: successfully migrated database to version: 3
+
+### 6. Row counts after migrate (orders DB)
+    t     | count 
+----------+-------
+ users    |     0
+ products |     4
+ orders   |     0
+(3 rows)
+
