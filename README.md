@@ -249,7 +249,7 @@ Layering: `httpapi → service (user, order) → repository interface → postgr
 - Email verification, password reset, refresh tokens.
 - Multi-item carts, stock reservation, payments, order cancellation.
 - Metrics/tracing (only structured request logs exist today).
-- The race detector (`go test -race`) was not run in the development environment because cgo was unavailable. Run it in CI on Linux.
+- CI. The race detector needs cgo, which the Windows dev box lacks, so it was run manually in a `golang:1.25` Linux container (see below).
 
 ---
 
@@ -279,6 +279,7 @@ Layering: `httpapi → service (user, order) → repository interface → postgr
 
 - `go vet ./...` is clean and `go test ./...` passes with no database.
 - Integration tests were run against Postgres 16 in Docker. The 50-way concurrent test was repeated 10× and every run ended with exactly 1 row in `orders`.
+- `go test -race ./...` (including the Postgres integration tests, and the concurrency tests repeated 5×) passes with no data races, run in a `golang:1.25` Linux container.
 - Migrations were checked with `goose up` → `reset` → `up`.
 - The real binary was smoke-tested with curl, including the timeout demo: the client aborted at 1s, the server delayed 3s and committed, the retry returned `Idempotent-Replayed: true` with the original id, and the DB had exactly 1 row.
 - I checked the logs for tokens and passwords (none found) and confirmed that startup is refused with `APP_ENV=prod` + fault injection.
